@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Canvas telegram resize</title>
+
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+
+            #canvas {
+                border: 2px solid black;
+                display: block;
+            }
+
+            .wrapper {
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .link-disabled {
+                color: grey;
+                user-select: none;
+                pointer-events: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <label>
+                Select type
+                <select id="type-select">
+                    <option value="100">Emoji</option>
+                    <option value="512">Sticker</option>
+                </select>
+            </label>
+            <label id="image-input-label">
+                Select image
+                <input id="image-input" type="file" accept="image/*">
+            </label>
+            <canvas id="canvas"></canvas>
+            <a id="download" href="#" download class="link-disabled">Download</a>
+        </div>
+
+        <script src="./main.js"></script>
+    </body>
+</html>
