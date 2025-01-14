@@ -2,32 +2,26 @@ let SIZE = 100;
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('canvas#canvas') as HTMLCanvasElement | null;
-    const ctx = canvas?.getContext("2d");
+    if (!canvas) return
+
     const typeSelect = document.querySelector('select#type-select') as HTMLSelectElement | null;
     const fileInput = document.querySelector('input#image-input') as HTMLInputElement | null;
     const link = document.querySelector('a#download') as HTMLAnchorElement | null;
+    const ctx = canvas.getContext("2d");
     const image = new Image();
+    if (!(ctx && fileInput && link && typeSelect)) return;
 
-    if (!(canvas && ctx && fileInput && link && typeSelect)) return;
-
-    canvas.width = SIZE;
-    canvas.height = SIZE;
-    canvas.style.width = SIZE + "px";
-    canvas.style.height = SIZE + "px";
+    applyCanvasSize();
 
     typeSelect.addEventListener('change', (event) => {
+        resetLink();
         SIZE = +(event.target as HTMLSelectElement).value;
-
-        canvas.width = SIZE;
-        canvas.height = SIZE;
-        canvas.style.width = SIZE + "px";
-        canvas.style.height = SIZE + "px";
-
-        console.log(SIZE);
+        applyCanvasSize();
     })
 
     fileInput.addEventListener("change", (event) => {
-        link.classList.add("link-disabled");
+        resetLink();
+
         const files = (event.target as HTMLInputElement).files;
         if (!files) return;
 
@@ -45,8 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const dx = ((SIZE - newWidth) / 2) / scale;
             const dy = ((SIZE - newHeight) / 2) / scale;
 
-            console.log(newWidth, newHeight, dx, dy);
-
             ctx.resetTransform();
             ctx.clearRect(0, 0, SIZE, SIZE);
             ctx.scale(scale, scale);
@@ -59,6 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     });
 
-    console.log(ctx);
-    console.log(fileInput);
+    function applyCanvasSize() {
+        if (!canvas) return;
+
+        canvas.width = SIZE;
+        canvas.height = SIZE;
+        canvas.style.width = SIZE + "px";
+        canvas.style.height = SIZE + "px";
+    }
+
+    function resetLink() {
+        if (!link) return;
+
+        link.classList.add("link-disabled");
+        link.download = "";
+        link.href = "#";
+    }
 });
