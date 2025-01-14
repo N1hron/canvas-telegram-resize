@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         canvas.width = SIZE;
         canvas.height = SIZE;
-        canvas.style.width = SIZE + "px";
-        canvas.style.height = SIZE + "px";
+        canvas.style.width = `min(calc(100vw - 2rem), ${SIZE}px)`;
+        canvas.style.height = `min(calc(100vw - 2rem), ${SIZE}px)`;
     }
 
     function resetLink() {
